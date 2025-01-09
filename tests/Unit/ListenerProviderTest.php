@@ -21,6 +21,7 @@ class ListenerProviderTest extends TestCase
         $provider->registerListener(MockEvent::class, $listener);
         $this->assertEquals([$listener], $provider->getListenersForEvent(new MockEvent()));
     }
+
     public function testIfMultipleListenersCanBeRetrieved(): void
     {
         $provider = new ListenerProvider();
@@ -38,5 +39,28 @@ class ListenerProviderTest extends TestCase
         $provider->registerListener(MockEvent::class, $listener3);
         $this->assertEquals([$listener2, $listener3, $listener1], $provider->getListenersForEvent(new MockEvent()));
         $this->assertEmpty($provider->getListenersForEvent(new stdClass()));
+    }
+
+    public function testIfWildcardListenersCanBeRetrieved(): void
+    {
+        $provider = new ListenerProvider();
+        $listener1 = function () {
+            return 'foo';
+        };
+        $listener2 = function () {
+            return 'bar';
+        };
+        $listener3 = function () {
+            return 'baz';
+        };
+        $listener4 = function () {
+            return 'baz';
+        };
+        $provider->registerListener('WillNotMatchAThing*', $listener1, ListenerPriority::HIGH);
+        $provider->registerListener(MockEvent::class, $listener2, ListenerPriority::LOW);
+        $provider->registerListener('*', $listener3);
+        $provider->registerListener('*Class', $listener4);
+        $this->assertEquals([$listener2, $listener1], $provider->getListenersForEvent(new MockEvent()));
+        $this->assertEquals([$listener3, $listener4], $provider->getListenersForEvent(new stdClass()));
     }
 }
