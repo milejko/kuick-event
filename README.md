@@ -33,7 +33,7 @@ $provider->registerListener(
 $dispatcher = new EventDispatcher($provider);
 // $dispatcher->dispatch(new SomeEvent());
 ```
-2. Listener prioritization (using stdClass as event)
+2. Listener prioritization (using stdClass as an event)
 ```
 <?php
 
@@ -61,7 +61,7 @@ $dispatcher = new EventDispatcher($provider);
 // it should handle the event with high priority listener first
 $dispatcher->dispatch(new stdClass());
 ```
-3. Registering wildcard listeners
+3. Registering wildcard listeners (using stdClass as an event)
 ```
 <?php
 
