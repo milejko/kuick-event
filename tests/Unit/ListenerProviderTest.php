@@ -26,13 +26,10 @@ class ListenerProviderTest extends TestCase
     {
         $provider = new ListenerProvider();
         $listener1 = function () {
-            return 'foo';
         };
         $listener2 = function () {
-            return 'bar';
         };
         $listener3 = function () {
-            return 'baz';
         };
         $provider->registerListener(MockEvent::class, $listener1, ListenerPriority::HIGH);
         $provider->registerListener(MockEvent::class, $listener2, ListenerPriority::LOW);
@@ -45,16 +42,12 @@ class ListenerProviderTest extends TestCase
     {
         $provider = new ListenerProvider();
         $listener1 = function () {
-            return 'foo';
         };
         $listener2 = function () {
-            return 'bar';
         };
         $listener3 = function () {
-            return 'baz';
         };
         $listener4 = function () {
-            return 'baz';
         };
         $provider->registerListener('WillNotMatchAThing*', $listener1, ListenerPriority::HIGH);
         $provider->registerListener(MockEvent::class, $listener2, ListenerPriority::LOW);

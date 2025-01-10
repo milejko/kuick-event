@@ -6,4 +6,32 @@
 [![codecov](https://codecov.io/gh/milejko/kuick-event/graph/badge.svg?token=80QEBDHGPH)](https://codecov.io/gh/milejko/kuick-event)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?cacheSeconds=14400)](LICENSE)
 
-PSR-14 Event Dispatcher implementation
+## PSR-14 Event Dispatcher lightweight implementation
+
+### Key features
+1. PSR-14 compatibility
+2. Easy to use listener registration
+3. Support for wildcard listeners (ie. ClassName*)
+4. Listener prioritization
+
+### Examples
+1. Registering listeners to the listener provider
+```
+<?php
+
+use Kuick\Event\EventDispatcher;
+use Kuick\Event\ListenerProvider;
+
+$provider = new ListenerProvider();
+$provider->registerListener(
+    'some class name or pattern',
+    function () {
+        //do something
+    }
+);
+
+$dispatcher = new EventDispatcher($provider);
+// $dispatcher->dispatch(new SomeEvent());
+```
+2. Listener prioritization
+@TODO

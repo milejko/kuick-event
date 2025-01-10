@@ -19,14 +19,18 @@ class EventDispatcherTest extends TestCase
     {
         $provider = new ListenerProvider();
         $data = [];
-        $listener1 = function () use (&$data) {
-            $data[] = 'foo';
-        };
-        $listener2 = function () use (&$data) {
-            $data[] = 'bar';
-        };
-        $provider->registerListener(MockEvent::class, $listener1);
-        $provider->registerListener(MockEvent::class, $listener2);
+        $provider->registerListener(
+            MockEvent::class,
+            function () use (&$data) {
+                $data[] = 'foo';
+            }
+        );
+        $provider->registerListener(
+            MockEvent::class,
+            function () use (&$data) {
+                $data[] = 'bar';
+            }
+        );
         $eventDispatcher = new EventDispatcher($provider);
         $this->assertEquals(new MockEvent(), $eventDispatcher->dispatch(new MockEvent()));
         $this->assertEquals(new stdClass(), $eventDispatcher->dispatch(new stdClass()));
@@ -37,16 +41,15 @@ class EventDispatcherTest extends TestCase
     {
         $provider = new ListenerProvider();
         $data = [];
-        $listener1 = function (StoppableEvent $event) use (&$data) {
+        $provider->registerListener(StoppableEvent::class, function (StoppableEvent $event) use (&$data) {
+            //this listener should be the only one called
             $event->stopPropagation();
             $data[] = 'foo';
-        };
-        $listener2 = function () use (&$data) {
+        });
+        $provider->registerListener(StoppableEvent::class, function () use (&$data) {
+            //this listener should not be called
             $data[] = 'bar';
-        };
-        $provider->registerListener(StoppableEvent::class, $listener1);
-        $provider->registerListener(StoppableEvent::class, $listener2);
-
+        });
         $eventDispatcher = new EventDispatcher($provider);
         $this->assertInstanceOf(StoppableEvent::class, $eventDispatcher->dispatch(new StoppableEvent()));
         $this->assertEquals(['foo'], $data);
