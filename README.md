@@ -11,8 +11,8 @@
 ### Key features
 1. PSR-14 compatibility
 2. Easy to use listener registration
-3. Support for wildcard listeners (ie. ClassName*)
-4. Listener prioritization
+3. Listener prioritization
+4. Support for wildcard listeners (ie. ClassName*)
 
 ### Examples
 1. Registering listeners to the listener provider
@@ -58,9 +58,10 @@ $provider->registerListener(
     ListenerPriority::LOW
 );
 $dispatcher = new EventDispatcher($provider);
+// it should handle the event with high priority listener first
 $dispatcher->dispatch(new stdClass());
 ```
-3. Wildcards
+3. Registering wildcard listeners
 ```
 <?php
 
@@ -78,10 +79,10 @@ $provider->registerListener(
 $provider->registerListener(
     'std*',
     function () {
-        //handler the event
+        //handle the event
     }
 );
 $dispatcher = new EventDispatcher($provider);
-// it should match both listeners
+// it should match both listeners and run them sequentialy
 $dispatcher->dispatch(new stdClass());
 ```
