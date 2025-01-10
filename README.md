@@ -26,12 +26,62 @@ $provider = new ListenerProvider();
 $provider->registerListener(
     'some class name or pattern',
     function () {
-        //do something
+        //handle the event
     }
 );
 
 $dispatcher = new EventDispatcher($provider);
 // $dispatcher->dispatch(new SomeEvent());
 ```
-2. Listener prioritization
-@TODO
+2. Listener prioritization (using stdClass as event)
+```
+<?php
+
+use stdClass;
+use Kuick\Event\EventDispatcher;
+use Kuick\Event\ListenerPriority;
+use Kuick\Event\ListenerProvider;
+
+$provider = new ListenerProvider();
+$provider->registerListener(
+    stdClass::class,
+    function () {
+        //handle the event
+    },
+    ListenerPriority::HIGH
+);
+$provider->registerListener(
+    stdClass::class,
+    function () {
+        //handler the event
+    },
+    ListenerPriority::LOW
+);
+$dispatcher = new EventDispatcher($provider);
+$dispatcher->dispatch(new stdClass());
+```
+3. Wildcards
+```
+<?php
+
+use stdClass;
+use Kuick\Event\EventDispatcher;
+use Kuick\Event\ListenerProvider;
+
+$provider = new ListenerProvider();
+$provider->registerListener(
+    '*',
+    function () {
+        //handle the event
+    }
+);
+$provider->registerListener(
+    'std*',
+    function () {
+        //handler the event
+    }
+);
+$dispatcher = new EventDispatcher($provider);
+// it should match both listeners
+$dispatcher->dispatch(new stdClass());
+```

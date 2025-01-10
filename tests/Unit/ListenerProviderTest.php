@@ -52,7 +52,7 @@ class ListenerProviderTest extends TestCase
         $provider->registerListener('WillNotMatchAThing*', $listener1, ListenerPriority::HIGH);
         $provider->registerListener(MockEvent::class, $listener2, ListenerPriority::LOW);
         $provider->registerListener('*', $listener3);
-        $provider->registerListener('*Class', $listener4);
+        $provider->registerListener('std*', $listener4);
         $this->assertEquals([$listener2, $listener1], $provider->getListenersForEvent(new MockEvent()));
         $this->assertEquals([$listener3, $listener4], $provider->getListenersForEvent(new stdClass()));
     }
