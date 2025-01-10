@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Kuick\Event\ListenerProvider;
 use stdClass;
 use Tests\Kuick\Event\Mocks\MockEvent;
+use Tests\Kuick\Event\Mocks\StoppableEvent;
 
 /**
  * @covers \Kuick\Event\EventDispatcher
@@ -24,11 +25,30 @@ class EventDispatcherTest extends TestCase
         $listener2 = function () use (&$data) {
             $data[] = 'bar';
         };
+        $provider->registerListener(MockEvent::class, $listener1);
+        $provider->registerListener(MockEvent::class, $listener2);
         $eventDispatcher = new EventDispatcher($provider);
-        $eventDispatcher->subscribe(MockEvent::class, $listener1);
-        $eventDispatcher->subscribe(stdClass::class, $listener2);
         $this->assertEquals(new MockEvent(), $eventDispatcher->dispatch(new MockEvent()));
         $this->assertEquals(new stdClass(), $eventDispatcher->dispatch(new stdClass()));
         $this->assertEquals(['foo', 'bar'], $data);
+    }
+
+    public function testIfStoppableEventsAreHandledCorrectly(): void
+    {
+        $provider = new ListenerProvider();
+        $data = [];
+        $listener1 = function (StoppableEvent $event) use (&$data) {
+            $event->stopPropagation();
+            $data[] = 'foo';
+        };
+        $listener2 = function () use (&$data) {
+            $data[] = 'bar';
+        };
+        $provider->registerListener(StoppableEvent::class, $listener1);
+        $provider->registerListener(StoppableEvent::class, $listener2);
+
+        $eventDispatcher = new EventDispatcher($provider);
+        $this->assertInstanceOf(StoppableEvent::class, $eventDispatcher->dispatch(new StoppableEvent()));
+        $this->assertEquals(['foo'], $data);
     }
 }

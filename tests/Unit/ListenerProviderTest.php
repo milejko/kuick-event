@@ -22,7 +22,7 @@ class ListenerProviderTest extends TestCase
         $this->assertEquals([$listener], $provider->getListenersForEvent(new MockEvent()));
     }
 
-    public function testIfMultipleListenersCanBeRetrieved(): void
+    public function testIfListenerPriorityWorks(): void
     {
         $provider = new ListenerProvider();
         $listener1 = function () {
@@ -41,7 +41,7 @@ class ListenerProviderTest extends TestCase
         $this->assertEmpty($provider->getListenersForEvent(new stdClass()));
     }
 
-    public function testIfWildcardListenersCanBeRetrieved(): void
+    public function testIfWildcardRegistrationWorks(): void
     {
         $provider = new ListenerProvider();
         $listener1 = function () {

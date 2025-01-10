@@ -20,10 +20,14 @@ class ListenerProvider implements ListenerProviderInterface
     /**
      * @param string $eventNameOrPattern The name of the event or a pattern to match against event names
      */
-    public function registerListener(string $eventNameOrPattern, callable $listener, int $priority = ListenerPriority::NORMAL): void
-    {
+    public function registerListener(
+        string $eventNameOrPattern,
+        callable $listener,
+        int $priority = ListenerPriority::NORMAL
+    ): self {
         $this->listeners[$priority][$eventNameOrPattern][] = $listener;
         ksort($this->listeners);
+        return $this;
     }
 
     /**
