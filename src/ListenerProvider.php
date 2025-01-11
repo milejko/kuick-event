@@ -13,7 +13,7 @@ namespace Kuick\Event;
 class ListenerProvider implements ListenerProviderInterface
 {
     /**
-     * @var array<int, array<string, array<callable>>>
+     * @var array<array{pattern: string, listener: callable, priority: int}>
      */
     private array $listeners = [];
 
@@ -25,8 +25,12 @@ class ListenerProvider implements ListenerProviderInterface
         callable $listener,
         int $priority = ListenerPriority::NORMAL
     ): self {
-        $this->listeners[$priority][$eventNameOrPattern][] = $listener;
-        ksort($this->listeners);
+        $this->listeners[] = [
+            'pattern' => $eventNameOrPattern,
+            'listener' => $listener,
+            'priority' => $priority,
+        ];
+        usort($this->listeners, [$this, 'compare']);
         return $this;
     }
 
@@ -36,20 +40,15 @@ class ListenerProvider implements ListenerProviderInterface
     public function getListenersForEvent(object $event): array
     {
         $eventName = get_class($event);
-        $orderedListeners = [];
+        $listeners = [];
         // array is already sorted by priority
-        foreach ($this->listeners as $prioritizedListeners) {
-            foreach ($prioritizedListeners as $eventNameOrPattern => $listener) {
-                if (!$this->matchWildcard($eventNameOrPattern, $eventName)) {
-                    continue;
-                }
-                $orderedListeners = array_merge($orderedListeners, $listener);
+        foreach ($this->listeners as $listener) {
+            if (!$this->matchWildcard($listener['pattern'], $eventName)) {
+                continue;
             }
+            $listeners[] = $listener['listener'];
         }
-        /**
-         * @var array<callable> $orderedListeners
-         */
-        return $orderedListeners;
+        return $listeners;
     }
 
     private function matchWildcard($pattern, $string): bool
@@ -57,5 +56,10 @@ class ListenerProvider implements ListenerProviderInterface
         $pattern = preg_quote($pattern, '/');
         $pattern = str_replace('\*', '.*', $pattern);
         return (bool) preg_match('/^' . $pattern . '$/', $string);
+    }
+
+    private function compare(array $listener1, array $listener2): int
+    {
+        return $listener1['priority'] <=> $listener2['priority'];
     }
 }
