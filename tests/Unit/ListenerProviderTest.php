@@ -2,14 +2,14 @@
 
 namespace Kuick\Event\Tests\Unit;
 
-use Kuick\Event\ListenerPriority;
+use Kuick\EventDispatcher\ListenerPriority;
+use Kuick\EventDispatcher\ListenerProvider;
 use PHPUnit\Framework\TestCase;
-use Kuick\Event\ListenerProvider;
 use stdClass;
-use Tests\Kuick\Event\Mocks\MockEvent;
+use Tests\Kuick\EventDispatcher\Mocks\MockEvent;
 
 /**
- * @covers \Kuick\Event\ListenerProvider
+ * @covers \Kuick\EventDispatcher\ListenerProvider
  */
 class ListenerProviderTest extends TestCase
 {

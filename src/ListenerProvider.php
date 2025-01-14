@@ -8,7 +8,7 @@
  * @license   https://en.wikipedia.org/wiki/BSD_licenses New BSD License
  */
 
-namespace Kuick\Event;
+namespace Kuick\EventDispatcher;
 
 use Psr\EventDispatcher\ListenerProviderInterface;
 

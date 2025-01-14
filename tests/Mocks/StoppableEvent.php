@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Kuick\Event\Mocks;
+namespace Tests\Kuick\EventDispatcher\Mocks;
 
 use Psr\EventDispatcher\StoppableEventInterface;
 

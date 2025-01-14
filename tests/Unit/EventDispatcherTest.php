@@ -2,16 +2,15 @@
 
 namespace Kuick\Event\Tests\Unit;
 
-use Kuick\Event\EventDispatcher;
-use Kuick\Event\ListenerPriority;
+use Kuick\EventDispatcher\EventDispatcher;
+use Kuick\EventDispatcher\ListenerProvider;
 use PHPUnit\Framework\TestCase;
-use Kuick\Event\ListenerProvider;
 use stdClass;
-use Tests\Kuick\Event\Mocks\MockEvent;
-use Tests\Kuick\Event\Mocks\StoppableEvent;
+use Tests\Kuick\EventDispatcher\Mocks\MockEvent;
+use Tests\Kuick\EventDispatcher\Mocks\StoppableEvent;
 
 /**
- * @covers \Kuick\Event\EventDispatcher
+ * @covers \Kuick\EventDispatcher\EventDispatcher
  */
 class EventDispatcherTest extends TestCase
 {

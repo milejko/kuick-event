@@ -1,5 +1,5 @@
 {
-    "name": "kuick/event",
+    "name": "kuick/event-dispatcher",
     "type": "library",
     "description": "Kuick Event is a slim PSR-14 Event Dispatcher implementation",
     "keywords": ["psr-14", "event", "event dispatcher", "kuick"],
@@ -32,12 +32,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Kuick\\Event\\": "src"
+            "Kuick\\EventDispatcher\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\Kuick\\Event\\": "tests"
+            "Tests\\Kuick\\EventDispatcher\\": "tests"
         }
     },
     "require-dev": {
