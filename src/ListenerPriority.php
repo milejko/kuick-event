@@ -12,7 +12,9 @@ namespace Kuick\Event;
 
 class ListenerPriority
 {
-    public const LOW = -100;
-    public const NORMAL = 0;
-    public const HIGH = 100;
+    public const LOWEST     = PHP_INT_MIN;
+    public const LOW        = -100;
+    public const NORMAL     = 0;
+    public const HIGH       = 100;
+    public const HIGHEST    = PHP_INT_MAX;
 }

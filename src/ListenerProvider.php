@@ -10,6 +10,8 @@
 
 namespace Kuick\Event;
 
+use Psr\EventDispatcher\ListenerProviderInterface;
+
 class ListenerProvider implements ListenerProviderInterface
 {
     /**
