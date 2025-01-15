@@ -1,18 +1,18 @@
-# Kuick Event
-[![Latest Version](https://img.shields.io/github/release/milejko/kuick-event.svg?cacheSeconds=3600)](https://github.com/milejko/kuick-event/releases)
+# Kuick Event Dispatcher
+[![Latest Version](https://img.shields.io/github/release/milejko/kuick-event-dispatcher.svg?cacheSeconds=3600)](https://github.com/milejko/kuick-event-dispatcher/releases)
 [![PHP](https://img.shields.io/badge/PHP-8.2%20|%208.3%20|%208.4-blue?logo=php&cacheSeconds=3600)](https://www.php.net)
-[![Total Downloads](https://img.shields.io/packagist/dt/kuick/event.svg?cacheSeconds=3600)](https://packagist.org/packages/kuick/event)
-[![GitHub Actions CI](https://github.com/milejko/kuick-event/actions/workflows/ci.yml/badge.svg)](https://github.com/milejko/kuick-event/actions/workflows/ci.yml)
-[![codecov](https://codecov.io/gh/milejko/kuick-event/graph/badge.svg?token=80QEBDHGPH)](https://codecov.io/gh/milejko/kuick-event)
+[![Total Downloads](https://img.shields.io/packagist/dt/kuick/event-dispatcher.svg?cacheSeconds=3600)](https://packagist.org/packages/kuick/event-dispatcher)
+[![GitHub Actions CI](https://github.com/milejko/kuick-event-dispatcher/actions/workflows/ci.yml/badge.svg)](https://github.com/milejko/kuick-event-dispatcher/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/milejko/kuick-event-dispatcher/graph/badge.svg?token=80QEBDHGPH)](https://codecov.io/gh/milejko/kuick-event-dispatcher)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?cacheSeconds=14400)](LICENSE)
 
 ## PSR-14 Event Dispatcher lightweight implementation
 
 ### Key features
-1. PSR-14 compatibility
+1. Full [PSR-14](https://www.php-fig.org/psr/psr-14/) compatibility
 2. Easy to use listener registration
 3. Listener prioritization
-4. Support for wildcard listeners (ie. ClassName*)
+4. Support for wildcard listeners (ie. *, Prefix*)
 
 ### Examples
 1. Registering listeners to the listener provider
