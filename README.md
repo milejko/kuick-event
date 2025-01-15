@@ -45,15 +45,15 @@ use Kuick\Event\ListenerProvider;
 $provider = new ListenerProvider();
 $provider->registerListener(
     stdClass::class,
-    function () {
+    function (stdClass $event) {
         //handle the event
     },
     ListenerPriority::HIGH
 );
 $provider->registerListener(
     stdClass::class,
-    function () {
-        //handler the event
+    function (stdClass $event) {
+        //handle the event
     },
     ListenerPriority::LOW
 );
@@ -72,13 +72,13 @@ use Kuick\Event\ListenerProvider;
 $provider = new ListenerProvider();
 $provider->registerListener(
     '*',
-    function () {
+    function (object $event) {
         //handle the event
     }
 );
 $provider->registerListener(
     'std*',
-    function () {
+    function (object $event) {
         //handle the event
     }
 );
