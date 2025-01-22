@@ -25,32 +25,47 @@ class ListenerProviderTest extends TestCase
     public function testIfListenerPriorityWorks(): void
     {
         $provider = new ListenerProvider();
-        $listener1 = function () {
+        $listener1 = function (): int {
+            return 1;
         };
-        $listener2 = function () {
+        $listener2 = function (): int {
+            return 2;
         };
-        $listener3 = function () {
+        $listener3 = function (): int {
+            return 3;
         };
-        $provider->registerListener(MockEvent::class, $listener1, ListenerPriority::HIGH);
-        $provider->registerListener(MockEvent::class, $listener2, ListenerPriority::LOW);
-        $provider->registerListener(MockEvent::class, $listener3);
-        $this->assertEquals([$listener2, $listener3, $listener1], $provider->getListenersForEvent(new MockEvent()));
+        $listener4 = function (): int {
+            return 4;
+        };
+        $provider->registerListener(MockEvent::class, $listener1, ListenerPriority::LOW);
+        $provider->registerListener(MockEvent::class, $listener2, ListenerPriority::NORMAL);
+        $provider->registerListener(MockEvent::class, $listener3, ListenerPriority::HIGH);
+        $provider->registerListener(MockEvent::class, $listener4, ListenerPriority::LOWEST);
+        $providers = $provider->getListenersForEvent(new MockEvent());
+        $this->assertCount(4, $providers);
+        $this->assertEquals(3, $providers[0]());
+        $this->assertEquals(2, $providers[1]());
+        $this->assertEquals(1, $providers[1]());
+        $this->assertEquals(4, $providers[1]());
         $this->assertEmpty($provider->getListenersForEvent(new stdClass()));
     }
 
     public function testIfWildcardRegistrationWorks(): void
     {
         $provider = new ListenerProvider();
-        $listener1 = function () {
+        $listener1 = function (): void {
         };
-        $listener2 = function () {
+        $listener2 = function (): int {
+            return 1;
         };
-        $listener3 = function () {
+        $listener3 = function (): string {
+            return 'test';
         };
-        $listener4 = function () {
+        $listener4 = function (): object {
+            return new stdClass();
         };
-        $provider->registerListener('WillNotMatchAThing*', $listener1, ListenerPriority::HIGH);
-        $provider->registerListener(MockEvent::class, $listener2, ListenerPriority::LOW);
+        $provider->registerListener('WillNotMatchAThing*', $listener1);
+        $provider->registerListener(MockEvent::class, $listener2);
         $provider->registerListener('*', $listener3);
         $provider->registerListener('std*', $listener4);
         $this->assertEquals([$listener2, $listener1], $provider->getListenersForEvent(new MockEvent()));

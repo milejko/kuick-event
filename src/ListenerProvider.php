@@ -32,7 +32,6 @@ class ListenerProvider implements ListenerProviderInterface
             'listener' => $listener,
             'priority' => $priority,
         ];
-        usort($this->listeners, [$this, 'compare']);
         return $this;
     }
 
@@ -42,15 +41,20 @@ class ListenerProvider implements ListenerProviderInterface
     public function getListenersForEvent(object $event): array
     {
         $eventName = get_class($event);
-        $listeners = [];
+        $prioritizedListeners = [];
         // array is already sorted by priority
         foreach ($this->listeners as $listener) {
             if (!$this->matchWildcard($listener['pattern'], $eventName)) {
                 continue;
             }
-            $listeners[] = $listener['listener'];
+            $prioritizedListeners[$listener['priority']][] = $listener['listener'];
         }
-        return $listeners;
+        krsort($prioritizedListeners);
+        $orderedListeners = [];
+        foreach ($prioritizedListeners as $listeners) {
+            $orderedListeners = array_merge($orderedListeners, $listeners);
+        }
+        return $orderedListeners;
     }
 
     private function matchWildcard($pattern, $string): bool
@@ -58,10 +62,5 @@ class ListenerProvider implements ListenerProviderInterface
         $pattern = preg_quote($pattern, '/');
         $pattern = str_replace('\*', '.*', $pattern);
         return (bool) preg_match('/^' . $pattern . '$/', $string);
-    }
-
-    private function compare(array $listener1, array $listener2): int
-    {
-        return $listener1['priority'] <=> $listener2['priority'];
     }
 }

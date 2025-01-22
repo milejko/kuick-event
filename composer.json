@@ -2,7 +2,7 @@
     "name": "kuick/event-dispatcher",
     "type": "library",
     "description": "Kuick Event is a slim PSR-14 Event Dispatcher implementation",
-    "keywords": ["psr-14", "event", "event dispatcher", "event listener", "kuick"],
+    "keywords": ["psr-14", "event", "event dispatcher", "listener provider", "kuick"],
     "license": "MIT",
     "authors": [
         {
