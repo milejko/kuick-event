@@ -45,8 +45,8 @@ class ListenerProviderTest extends TestCase
         $this->assertCount(4, $providers);
         $this->assertEquals(3, $providers[0]());
         $this->assertEquals(2, $providers[1]());
-        $this->assertEquals(1, $providers[1]());
-        $this->assertEquals(4, $providers[1]());
+        $this->assertEquals(1, $providers[2]());
+        $this->assertEquals(4, $providers[3]());
         $this->assertEmpty($provider->getListenersForEvent(new stdClass()));
     }
 
